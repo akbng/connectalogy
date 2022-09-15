@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { intervalToDuration } from "date-fns";
 import PropTypes from "prop-types";
+
 import Ring from "./Ring.svg.jsx";
+import styles from "../styles/Timer.module.css";
 
 const Timer = ({ time, size, color }) => {
   const [remainingTime, setRemainingTime] = useState(time);
@@ -45,16 +47,13 @@ const Timer = ({ time, size, color }) => {
         ringOffset={ringOffset}
       />
       <p
+        className={[
+          styles.time,
+          remainingTime < 4 && remainingTime > 0 ? styles.animate_pingu : "",
+        ].join(" ")}
         style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          padding: 0,
-          margin: 0,
           fontSize: `${~~(size / 30)}rem`,
           color: color,
-          transition: "color 675ms ease-in-out",
         }}
       >
         {remainingTime}
