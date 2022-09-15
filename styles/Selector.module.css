@@ -1,0 +1,78 @@
+/* TODO: Remove the font face when not using storybook */
+@font-face {
+  font-family: "RedPixel";
+  src: url("../public/fonts/RedPixelRegular.woff2") format("woff2"),
+    url("../public/fonts/RedPixelRegular.woff") format("woff"),
+    url("../public/fonts/RedPixelRegular.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.selector {
+  position: relative;
+  font-size: 4.5rem;
+  color: var(--selector-color);
+  font-weight: 200;
+  font-family: "RedPixel", sans-serif;
+  transform: scale(0.4);
+  cursor: pointer;
+  user-select: none;
+  background: none;
+  border: none;
+  white-space: nowrap;
+}
+
+.selector::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: -34px;
+  left: -120px;
+  opacity: 0;
+  transition: opacity 110ms ease-in;
+  box-shadow: 20px 10px 0 0 var(--selector-color),
+    30px 10px 0 0 var(--selector-color), 10px 20px 0 0 var(--selector-color),
+    20px 20px 0 0 var(--selector-color), 30px 20px 0 0 var(--selector-color),
+    40px 20px 0 0 var(--selector-color), 20px 30px 0 0 var(--selector-color),
+    30px 30px 0 0 var(--selector-color), 40px 30px 0 0 var(--selector-color),
+    50px 30px 0 0 var(--selector-color), 30px 40px 0 0 var(--selector-color),
+    40px 40px 0 0 var(--selector-color), 50px 40px 0 0 var(--selector-color),
+    60px 40px 0 0 var(--selector-color), 40px 50px 0 0 var(--selector-color),
+    50px 50px 0 0 var(--selector-color), 60px 50px 0 0 var(--selector-color),
+    70px 50px 0 0 var(--selector-color), 50px 60px 0 0 var(--selector-color),
+    60px 60px 0 0 var(--selector-color), 70px 60px 0 0 var(--selector-color),
+    80px 60px 0 0 var(--selector-color), 40px 70px 0 0 var(--selector-color),
+    50px 70px 0 0 var(--selector-color), 60px 70px 0 0 var(--selector-color),
+    70px 70px 0 0 var(--selector-color), 30px 80px 0 0 var(--selector-color),
+    40px 80px 0 0 var(--selector-color), 50px 80px 0 0 var(--selector-color),
+    60px 80px 0 0 var(--selector-color), 20px 90px 0 0 var(--selector-color),
+    30px 90px 0 0 var(--selector-color), 40px 90px 0 0 var(--selector-color),
+    50px 90px 0 0 var(--selector-color), 10px 100px 0 0 var(--selector-color),
+    20px 100px 0 0 var(--selector-color), 30px 100px 0 0 var(--selector-color),
+    40px 100px 0 0 var(--selector-color), 20px 110px 0 0 var(--selector-color),
+    30px 110px 0 0 var(--selector-color);
+}
+
+.selector::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 5px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--selector-color);
+  transform-origin: bottom right;
+  transition: transform 275ms ease-out;
+}
+
+.selector:hover::before {
+  opacity: 1;
+}
+
+.selector:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
