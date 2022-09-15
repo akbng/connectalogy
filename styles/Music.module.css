@@ -1,0 +1,65 @@
+.music {
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin: 0 12px;
+}
+
+.music_in {
+  animation: slide-in 850ms cubic-bezier(0, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+.music_in:last-child {
+  animation-delay: 275ms;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateY(10%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.music_out {
+  animation: slide-out 850ms cubic-bezier(0, 0, 0.2, 1) forwards;
+  opacity: 1;
+}
+
+.music_out:last-child {
+  animation-delay: 275ms;
+}
+
+@keyframes slide-out {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(10%);
+    opacity: 0;
+  }
+}
+
+.music_note {
+  animation: shaky-shaky 250ms ease forwards;
+  transform-origin: center center;
+}
+
+@keyframes shaky-shaky {
+  0%,
+  50%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+}
