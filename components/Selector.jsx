@@ -7,7 +7,7 @@ const clickSound = new Audio("/sounds/scifi_click.mp3");
 clickSound.volume = 0.4;
 // volume will be available as a context
 
-const Selector = ({ className, label, color }) => {
+const Selector = ({ className, label, color, onClick }) => {
   document.documentElement.style.setProperty("--selector-color", color);
   const playOnHover = () => clickSound.play();
 
@@ -15,6 +15,7 @@ const Selector = ({ className, label, color }) => {
     <button
       className={`${styles.selector} ${className}`}
       onMouseEnter={playOnHover}
+      onClick={onClick}
     >
       {label}
     </button>
@@ -25,6 +26,7 @@ Selector.propTypes = {
   label: PropTypes.string,
   className: PropTypes.string,
   color: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 Selector.defaultProps = {
