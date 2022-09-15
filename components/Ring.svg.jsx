@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
+import { motion } from "framer-motion";
 
 const Ring = ({ size, color, ringOffset, style, className }) => {
   const radius = ~~(size / 2) - 8;
   const circumference = 2 * Math.PI * radius;
 
   return (
-    <svg className={className} style={style} width={size} height={size}>
-      <circle
-        className="progress-ring__circle"
+    <motion.svg className={className} style={style} width={size} height={size}>
+      <motion.circle
         stroke={color}
         strokeWidth={~~(size / 40)}
         fill="transparent"
@@ -16,12 +16,13 @@ const Ring = ({ size, color, ringOffset, style, className }) => {
         cy={~~(size / 2)}
         strokeLinecap="round"
         strokeDasharray={`${circumference} ${circumference}`}
-        style={{
-          transition: "all 675ms ease-out",
-          strokeDashoffset: ringOffset,
+        animate={{ strokeDashoffset: ringOffset }}
+        transition={{
+          duration: 0.65,
+          ease: "easeOut",
         }}
       />
-    </svg>
+    </motion.svg>
   );
 };
 
