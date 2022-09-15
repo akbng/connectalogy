@@ -1,5 +1,5 @@
 {
-  "name": "gameofpeople",
+  "name": "the-family-game",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,9 +12,11 @@
   },
   "dependencies": {
     "date-fns": "^2.29.2",
+    "framer-motion": "^7.3.5",
     "next": "12.3.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-icons": "^4.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.0",
