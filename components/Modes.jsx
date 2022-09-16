@@ -1,22 +1,31 @@
-import { useState } from "react";
+import { useContext, useRef, useState } from "react";
+import { GameContext } from "../providers/GameProvider";
 
 import styles from "../styles/Modes.module.css";
 
-const hardClick = new Audio("/sounds/hard_click.mp3");
-
 const Modes = () => {
-  const [mode, setMode] = useState("easy");
+  const {
+    state: { mode },
+    updateState,
+  } = useContext(GameContext);
+  const hardClick = useRef(
+    typeof Audio !== "undefined"
+      ? new Audio("/sounds/hard_click.mp3")
+      : undefined
+  );
+
+  const setMode = (item) => () => {
+    hardClick.current.play();
+    updateState({ mode: item });
+  };
 
   return (
     <div className={styles.modes}>
       {["easy", "normal", "hard"].map((item, i) => (
         <button
           key={i}
-          className={mode === item && styles.selected}
-          onClick={() => {
-            hardClick.play();
-            setMode(item);
-          }}
+          className={mode === item ? styles.selected : ""}
+          onClick={setMode(item)}
         >
           {item}
         </button>
