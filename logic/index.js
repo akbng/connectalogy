@@ -128,7 +128,7 @@ export function shuffle(arr) {
 }
 
 /**
- * Given a solution, find three other solutions that are not the same as the solution
+ * Given a solution, find three other solutions that are not the correct solution
  * @param solution - The correct solution to the problem.
  * @returns An array of three random numbers.
  */

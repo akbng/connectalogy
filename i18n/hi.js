@@ -42,9 +42,9 @@ const hiRelations = {
   younger_sister_in_law_husband: "छोटी ननद",
   elder_sister_in_law_husband: "बड़ी ननद",
   sister_in_law: "भाभी",
-  brother_in_law: "जीजा", // need to separate younger and elder
-  great_grandfather: "परदादा", //need to separate maternal & paternal
-  great_grandmother: "परदादी", //need to separate maternal & paternal
+  brother_in_law: "जीजा",
+  great_grandfather: "परदादा",
+  great_grandmother: "परदादी",
   coparents_in_law_father: "समधी",
   coparents_in_law_mother: "समधन",
   grand_son_wife: "नात बहू",
