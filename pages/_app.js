@@ -1,10 +1,13 @@
+import { AnimatePresence, motion } from "framer-motion";
 import GameProvider from "../providers/GameProvider";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
     <GameProvider>
-      <Component {...pageProps} />
+      <AnimatePresence mode="wait" initial={false}>
+        <Component {...pageProps} />
+      </AnimatePresence>
     </GameProvider>
   );
 }
