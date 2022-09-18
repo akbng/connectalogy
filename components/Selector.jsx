@@ -1,9 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
 import styles from "../styles/Selector.module.css";
+import { GameContext } from "../providers/GameProvider";
 
 const Selector = ({ className, label, color, onClick }) => {
+  const {
+    state: { isSoundOn },
+  } = useContext(GameContext);
   const clickSound = useRef(
     typeof Audio !== "undefined"
       ? new Audio("/sounds/scifi_click.mp3")
@@ -12,18 +16,18 @@ const Selector = ({ className, label, color, onClick }) => {
   const selectorRef = useRef("");
 
   useEffect(() => {
-    selectorRef.current.style.setProperty("--selector-color", color);
+    selectorRef.current?.style?.setProperty("--selector-color", color);
     clickSound.current.volume = 0.4;
   }, []);
 
-  const playOnHover = () => clickSound.current.play();
+  const playOnHover = () => isSoundOn && clickSound.current.play();
 
   return (
     <button
       className={`${styles.selector} ${className}`}
+      ref={selectorRef}
       onMouseEnter={playOnHover}
       onClick={onClick}
-      ref={selectorRef}
     >
       {label}
     </button>

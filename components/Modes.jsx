@@ -5,7 +5,7 @@ import styles from "../styles/Modes.module.css";
 
 const Modes = () => {
   const {
-    state: { mode },
+    state: { mode, isSoundOn },
     updateState,
   } = useContext(GameContext);
   const hardClick = useRef(
@@ -15,7 +15,7 @@ const Modes = () => {
   );
 
   const setMode = (item) => () => {
-    hardClick.current.play();
+    if (isSoundOn) hardClick.current.play();
     updateState({ mode: item });
   };
 
