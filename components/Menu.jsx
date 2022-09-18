@@ -1,20 +1,42 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
 
 import styles from "../styles/Menu.module.css";
+import Locales from "../data/Locales";
 import Modes from "./Modes";
 import Music from "./Music.svg.jsx";
 import Selector from "./Selector";
 import Speaker from "./Speaker.svg.jsx";
+import { GameContext } from "../providers/GameProvider";
+
+const reg = new RegExp(Locales.map((l) => l.label).join("|"));
 
 const Menu = () => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("");
+  const { state, updateState } = useContext(GameContext);
+
+  const selectLocale = (locale) => () => {
+    updateState({ locale });
+    setActiveTab("");
+  };
+
+  const getActiveLocale = () => {
+    return Locales.find((loc) => loc.id === state.locale);
+  };
+
+  useEffect(() => {
+    router.prefetch("/play");
+    router.prefetch("/learn");
+    router.prefetch("/score");
+  }, []);
 
   return (
     <div className={styles.outer_container}>
       <div className={styles.container}>
-        <AnimatePresence mode="wait">
-          {activeTab === "Language" ? (
+        <AnimatePresence mode="wait" initial={false}>
+          {activeTab.match(reg) ? (
             <motion.div
               id="language-selector"
               key={activeTab}
@@ -24,16 +46,14 @@ const Menu = () => {
               exit={{ x: 25, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              {["English", "español", "français", "Hindi", "Bengali"].map(
-                (item, i) => (
-                  <Selector
-                    key={i}
-                    label={item}
-                    color="#fff"
-                    onClick={() => setActiveTab("")}
-                  />
-                )
-              )}
+              {Locales.map((locale) => (
+                <Selector
+                  key={locale.id}
+                  label={locale.label}
+                  color={state.locale === locale.id ? "#fde68a" : "#fff"}
+                  onClick={selectLocale(locale.id)}
+                />
+              ))}
             </motion.div>
           ) : (
             <motion.div
@@ -45,12 +65,21 @@ const Menu = () => {
               exit={{ x: -25, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              {["Play", "Learn", "Score Board", "Language"].map((item, i) => (
+              {[
+                "play",
+                "learn",
+                "score board",
+                `${getActiveLocale().label}`,
+              ].map((item, i) => (
                 <Selector
                   key={i}
                   label={item}
                   color="#fff"
-                  onClick={() => setActiveTab(item)}
+                  onClick={() =>
+                    item.match(reg)
+                      ? setActiveTab(item)
+                      : router.push(`/${item.split(" ")[0]}`)
+                  }
                 />
               ))}
               <Modes />

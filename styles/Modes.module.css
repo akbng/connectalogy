@@ -1,5 +1,6 @@
 .modes {
   width: 80%;
+  margin: auto;
   margin-bottom: 12px;
   display: flex;
   justify-content: center;
