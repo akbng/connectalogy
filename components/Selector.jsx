@@ -17,7 +17,7 @@ const Selector = ({ className, label, color, onClick }) => {
 
   useEffect(() => {
     selectorRef.current?.style?.setProperty("--selector-color", color);
-    clickSound.current.volume = 0.4;
+    clickSound.current.volume = 0.2;
   }, []);
 
   const playOnHover = () => isSoundOn && clickSound.current.play();
