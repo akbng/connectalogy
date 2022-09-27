@@ -6,7 +6,10 @@ function MyApp({ Component, pageProps }) {
   return (
     <GameProvider>
       <AnimatePresence mode="wait" initial={false}>
-        <Component {...pageProps} />
+        <>
+          <Component {...pageProps} />
+          <audio id="music" src="/sounds/music.mp3" autoPlay loop></audio>
+        </>
       </AnimatePresence>
     </GameProvider>
   );

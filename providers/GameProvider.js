@@ -11,7 +11,7 @@ const initialState = {
   locale: "en",
   mode: "normal",
   isSoundOn: true,
-  isMusicOn: true,
+  isMusicOn: false,
   playing: false,
   paused: false,
   gameOver: false,
