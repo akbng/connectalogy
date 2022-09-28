@@ -5,12 +5,12 @@ import PropTypes from "prop-types";
 import Ring from "./Ring.svg.jsx";
 import styles from "../styles/Timer.module.css";
 
-const Timer = ({ time, size, color }) => {
+const Timer = ({ time, size, color, className, onComplete }) => {
   const [remainingTime, setRemainingTime] = useState(time);
   const [startTime] = useState(new Date());
   const [complete, setComplete] = useState(false);
   const [ringOffset, setRingOffset] = useState(0);
-  const radius = ~~(size / 2) - 8;
+  const radius = ~~(size / 2) - Math.min(8, size * 0.1);
   const circumference = 2 * Math.PI * radius;
 
   const tickFn = () => {
@@ -33,15 +33,18 @@ const Timer = ({ time, size, color }) => {
   useEffect(() => {
     let timer;
     timer = setInterval(tickFn, 500);
-    if (complete) clearInterval(timer);
+    if (complete) {
+      clearInterval(timer);
+      onComplete();
+    }
 
     return () => clearInterval(timer);
   }, [complete]);
 
   return (
-    <div className="container" style={{ position: "relative" }}>
+    <div className={className} style={{ position: "relative" }}>
       <Ring
-        style={{ transform: "rotate(90deg)" }}
+        className={styles.ring}
         size={size}
         color={color}
         ringOffset={ringOffset}
@@ -52,7 +55,7 @@ const Timer = ({ time, size, color }) => {
           remainingTime < 4 && remainingTime > 0 ? styles.animate_pingu : "",
         ].join(" ")}
         style={{
-          fontSize: `${~~(size / 30)}rem`,
+          fontSize: `${Math.max(1, ~~(size / 40))}rem`,
           color: color,
         }}
       >
@@ -72,6 +75,8 @@ Timer.propTypes = {
    */
   size: PropTypes.number,
   color: PropTypes.string,
+  className: PropTypes.string,
+  onComplete: PropTypes.func,
 };
 
 Timer.defaultProps = {
