@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useRef } from "react";
 import PropTypes from "prop-types";
 
 import styles from "../styles/Selector.module.css";
@@ -13,19 +13,13 @@ const Selector = ({ className, label, color, onClick }) => {
       ? new Audio("/sounds/scifi_click.mp3")
       : undefined
   );
-  const selectorRef = useRef("");
-
-  useEffect(() => {
-    selectorRef.current?.style?.setProperty("--selector-color", color);
-    clickSound.current.volume = 0.2;
-  }, []);
 
   const playOnHover = () => isSoundOn && clickSound.current.play();
 
   return (
     <button
       className={`${styles.selector} ${className}`}
-      ref={selectorRef}
+      style={{ "--selector-color": color }}
       onMouseEnter={playOnHover}
       onClick={onClick}
     >
