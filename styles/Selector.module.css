@@ -1,14 +1,3 @@
-/* TODO: Remove the font face when not using storybook */
-@font-face {
-  font-family: "RedPixel";
-  src: url("../public/fonts/RedPixelRegular.woff2") format("woff2"),
-    url("../public/fonts/RedPixelRegular.woff") format("woff"),
-    url("../public/fonts/RedPixelRegular.ttf") format("truetype");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
 .selector {
   position: relative;
   font-size: 4.5rem;
@@ -73,6 +62,15 @@
 }
 
 .selector:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.selector:focus::before {
+  opacity: 1;
+}
+
+.selector:focus::after {
   transform: scaleX(1);
   transform-origin: bottom left;
 }
