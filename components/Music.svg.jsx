@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { motion } from "framer-motion";
 
@@ -7,20 +7,35 @@ import { GameContext } from "../providers/GameProvider";
 
 const Music = ({ size, style, className, color }) => {
   const {
-    state: { isMusicOn },
+    state: { isMusicOn, isSoundOn },
     updateState,
   } = useContext(GameContext);
-  const unmute = useRef(
-    typeof Audio !== "undefined" ? new Audio("/sounds/unmute.mp3") : undefined
-  );
-  const mute = useRef(
-    typeof Audio !== "undefined" ? new Audio("/sounds/mute.mp3") : undefined
+  const clicker = useRef(
+    typeof Audio !== "undefined"
+      ? new Audio("/sounds/hard_click.mp3")
+      : undefined
   );
 
   const toggleMute = () => {
-    isMusicOn ? mute.current.play() : unmute.current.play();
+    if (isSoundOn) clicker.current.play();
     updateState({ isMusicOn: !isMusicOn });
   };
+
+  useEffect(() => {
+    const music = document.getElementById("music");
+    music.volume = 0.3;
+    isMusicOn ? music.play() : music.pause();
+    const handlePause = () =>
+      isMusicOn ? updateState({ isMusicOn: false }) : false;
+    const handlePlay = () =>
+      !isMusicOn ? updateState({ isMusicOn: true }) : false;
+    music.addEventListener("pause", handlePause);
+    music.addEventListener("play", handlePlay);
+    return () => {
+      music.removeEventListener("pause", handlePause);
+      music.removeEventListener("play", handlePlay);
+    };
+  }, [isMusicOn]);
 
   return (
     <button

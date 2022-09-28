@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
       <AnimatePresence mode="wait" initial={false}>
         <>
           <Component {...pageProps} />
-          <audio id="music" src="/sounds/music.mp3" autoPlay loop></audio>
+          <audio id="music" src="/sounds/music.mp3" loop></audio>
         </>
       </AnimatePresence>
     </GameProvider>
