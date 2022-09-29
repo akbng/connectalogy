@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import Option from "./Option";
@@ -15,10 +15,11 @@ const Options = ({
   optionNumbers,
 }) => {
   const {
-    state: { isSoundOn, mode },
+    state: { isSoundOn, mode, level },
     updateState,
   } = useContext(GameContext);
   const [wrongOptions, setWrongOptions] = useState([]);
+  const [blockUserAction, setBlockUserAction] = useState(false);
 
   const errorSound = useRef(
     typeof Audio !== "undefined"
@@ -32,8 +33,10 @@ const Options = ({
   );
 
   const onUserSelect = (opt) => () => {
+    if (blockUserAction) return;
     if (opt === rightOption) {
       if (isSoundOn) successSound.current.play();
+      setBlockUserAction(true);
       setCorrectAns(opt);
       return;
     }
@@ -42,6 +45,24 @@ const Options = ({
       setWrongOptions([...wrongOptions, opt]);
     else updateState({ gameOver: true });
   };
+
+  const handleKeystrokes = (e) => {
+    const key = e.key;
+    optionNumbers.forEach((optNum, i) => {
+      if (key.toLowerCase() === optNum.toLowerCase())
+        onUserSelect(options[i])();
+    });
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeystrokes);
+    return () => document.removeEventListener("keydown", handleKeystrokes);
+  }, [options, blockUserAction, wrongOptions]);
+
+  useEffect(() => {
+    setWrongOptions([]);
+    setBlockUserAction(false);
+  }, [level]);
 
   return (
     <div className={[styles.options, className].join(" ")}>
@@ -69,7 +90,7 @@ const Options = ({
 
 Options.propTypes = {
   className: PropTypes.string,
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  options: PropTypes.array.isRequired,
   rightOption: PropTypes.string.isRequired,
   correctAns: PropTypes.string.isRequired,
   setCorrectAns: PropTypes.func.isRequired,
