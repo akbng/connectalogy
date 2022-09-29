@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { motion } from "framer-motion";
 
@@ -10,6 +11,15 @@ const variants = {
 };
 
 const NextButton = ({ onComplete, waitTill, className, style }) => {
+  const proceedOnEnter = (e) => {
+    if (e.key === "Enter") onComplete();
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", proceedOnEnter);
+    return () => document.removeEventListener("keydown", proceedOnEnter);
+  }, []);
+
   return (
     <motion.div
       initial="hidden"
