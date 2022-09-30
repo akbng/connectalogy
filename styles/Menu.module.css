@@ -4,8 +4,7 @@
   max-width: 376px;
   max-height: 425px;
   padding: 12px 0;
-  margin: 12px 32px;
-  background: rgba(255, 255, 255, 0.15);
+  background: #334155;
   border-radius: 0.5rem;
   overflow: hidden;
 }
@@ -34,17 +33,6 @@
 .tab::-webkit-scrollbar-thumb {
   background: #bbb;
   border-radius: 1rem;
-}
-
-.outer_container {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background: rgb(17, 24, 39);
-  background: rgba(0, 0, 0, 0.75);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .controllers {
