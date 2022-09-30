@@ -7,9 +7,12 @@ import { GameContext } from "../providers/GameProvider";
 import ProblemDiagram from "./ProblemDiagram";
 import styles from "../styles/Game.module.css";
 import getLocale from "../utils/getLocale";
+import MenuIcon from "./MenuIcon.svg.jsx";
 import NextButton from "./NextButton";
 import Options from "./Options";
 import Timer from "./Timer";
+import Modal from "./Modal";
+import Menu from "./Menu";
 
 const getTimerForMode = (mode) => {
   const modes = {
@@ -30,6 +33,7 @@ const Game = ({ data }) => {
   const { state, updateState } = useContext(GameContext);
   const lang = getLocale(state.locale);
   const [correctAns, setCorrectAns] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const onTimerComplete = () =>
     updateState({
@@ -45,6 +49,10 @@ const Game = ({ data }) => {
     <div className={styles.container}>
       <section className={styles.diagram}>
         <ProblemDiagram {...createFlowElements(data.problem, lang)} />
+        <MenuIcon
+          className={styles.menu_button}
+          onClick={() => setIsMenuOpen(true)}
+        />
       </section>
       <aside className={styles.sidepanel}>
         <AnimatePresence mode="popLayout">
@@ -61,6 +69,7 @@ const Game = ({ data }) => {
                 size={150}
                 color="#115e59"
                 onComplete={() => updateState({ gameOver: true })}
+                pause={isMenuOpen}
               />
             </motion.div>
           )}
@@ -75,6 +84,9 @@ const Game = ({ data }) => {
         />
         {correctAns && <NextButton onComplete={onTimerComplete} waitTill={5} />}
       </aside>
+      <Modal isOpen={isMenuOpen} setOpen={setIsMenuOpen}>
+        <Menu />
+      </Modal>
     </div>
   );
 };
