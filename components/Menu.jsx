@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
+import PropTypes from "prop-types";
 
 import styles from "../styles/Menu.module.css";
 import Locales from "../data/Locales";
@@ -11,8 +12,9 @@ import Speaker from "./Speaker.svg.jsx";
 import { GameContext } from "../providers/GameProvider";
 
 const reg = new RegExp(Locales.map((l) => l.label).join("|"));
+const stdOptions = ["play", "learn", "score board"];
 
-const Menu = () => {
+const Menu = ({ onSelect }) => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("");
   const { state, updateState } = useContext(GameContext);
@@ -24,6 +26,12 @@ const Menu = () => {
 
   const getActiveLocale = () => {
     return Locales.find((loc) => loc.id === state.locale);
+  };
+
+  const action = (item) => {
+    if (router.pathname === `/${item.split(" ")[0]}`) return onSelect();
+    if (item.match(reg)) return setActiveTab(item);
+    router.push(`/${item.split(" ")[0]}`);
   };
 
   return (
@@ -58,20 +66,14 @@ const Menu = () => {
             exit={{ x: -25, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            {["play", "learn", "score board", `${getActiveLocale().label}`].map(
-              (item, i) => (
-                <Selector
-                  key={i}
-                  label={item}
-                  color="#fff"
-                  onClick={() =>
-                    item.match(reg)
-                      ? setActiveTab(item)
-                      : router.push(`/${item.split(" ")[0]}`)
-                  }
-                />
-              )
-            )}
+            {[...stdOptions, `${getActiveLocale().label}`].map((item, i) => (
+              <Selector
+                key={i}
+                label={item}
+                color="#fff"
+                onClick={() => action(item)}
+              />
+            ))}
             <Modes />
             <div className={styles.controllers}>
               <Speaker size={35} color="#fff" />
@@ -82,6 +84,10 @@ const Menu = () => {
       </AnimatePresence>
     </div>
   );
+};
+
+Menu.propTypes = {
+  onSelect: PropTypes.func,
 };
 
 export default Menu;
