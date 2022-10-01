@@ -85,7 +85,7 @@ const Game = ({ data }) => {
         {correctAns && <NextButton onComplete={onTimerComplete} waitTill={5} />}
       </aside>
       <Modal isOpen={isMenuOpen} setOpen={setIsMenuOpen}>
-        <Menu />
+        <Menu onSelect={() => setIsMenuOpen(false)} />
       </Modal>
     </div>
   );
