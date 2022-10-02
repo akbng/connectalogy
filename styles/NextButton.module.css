@@ -1,0 +1,26 @@
+.wrapper {
+  width: 80%;
+  min-width: 180px;
+}
+
+.btn {
+  width: fit-content;
+  padding: 8px 14px;
+  background-color: #115e59;
+  color: #fff;
+  border-radius: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 750px) {
+  .wrapper {
+    min-width: 0;
+    width: fit-content;
+    position: absolute;
+    top: -58px;
+    right: 8px;
+    z-index: 10;
+  }
+}
