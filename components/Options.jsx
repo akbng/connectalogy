@@ -15,7 +15,7 @@ const Options = ({
   optionNumbers,
 }) => {
   const {
-    state: { isSoundOn, mode, level },
+    state: { isSoundOn, mode, level, score },
     updateState,
   } = useContext(GameContext);
   const [wrongOptions, setWrongOptions] = useState([]);
@@ -38,6 +38,7 @@ const Options = ({
       if (isSoundOn) successSound.current.play();
       setBlockUserAction(true);
       setCorrectAns(opt);
+      updateState({ score: score + 10 });
       return;
     }
     if (isSoundOn) errorSound.current.play();

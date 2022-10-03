@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import createFlowElements from "../utils/createFlowElements";
 import { GameContext } from "../providers/GameProvider";
+import useWindowSize from "../hooks/useWindowSize";
 import ProblemDiagram from "./ProblemDiagram";
 import styles from "../styles/Game.module.css";
 import getLocale from "../utils/getLocale";
@@ -34,20 +35,31 @@ const Game = ({ data }) => {
   const lang = getLocale(state.locale);
   const [correctAns, setCorrectAns] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { width: screenWidth } = useWindowSize();
 
   const onTimerComplete = () =>
     updateState({
       level: state.level + 1,
-      score: state.score + 10,
     });
+
+  const toggleMenuOnEsc = (e) => {
+    if (e.key === " ") setIsMenuOpen((status) => !status);
+    if (e.key === "Enter") e.preventDefault();
+  };
 
   useEffect(() => {
     if (correctAns) setCorrectAns("");
+    document.addEventListener("keydown", toggleMenuOnEsc);
+    return () => document.removeEventListener("keydown", toggleMenuOnEsc);
   }, [state.level]);
 
   return (
     <div className={styles.container}>
       <section className={styles.diagram}>
+        <div className={styles.score_wrapper}>
+          <span>Score:</span>
+          <span className={styles.score}>{state.score}</span>
+        </div>
         <ProblemDiagram {...createFlowElements(data.problem, lang)} />
         <MenuIcon
           className={styles.menu_button}
@@ -66,7 +78,7 @@ const Game = ({ data }) => {
             >
               <Timer
                 time={getTimerForMode(state.mode)}
-                size={150}
+                size={screenWidth > 750 ? 150 : 90}
                 color="#115e59"
                 onComplete={() => updateState({ gameOver: true })}
                 pause={isMenuOpen}
