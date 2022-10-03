@@ -35,7 +35,7 @@ const Game = ({ data }) => {
   const lang = getLocale(state.locale);
   const [correctAns, setCorrectAns] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [screenWidth] = useWindowSize();
+  const { width: screenWidth } = useWindowSize();
 
   const onTimerComplete = () =>
     updateState({
