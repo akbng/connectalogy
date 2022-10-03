@@ -1,17 +1,21 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { SessionProvider } from "next-auth/react";
+
 import GameProvider from "../providers/GameProvider";
 import "../styles/globals.css";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
-    <GameProvider>
-      <AnimatePresence mode="wait" initial={false}>
-        <>
-          <Component {...pageProps} />
-          <audio id="music" src="/sounds/music.mp3" loop></audio>
-        </>
-      </AnimatePresence>
-    </GameProvider>
+    <SessionProvider session={session}>
+      <GameProvider>
+        <AnimatePresence mode="wait" initial={false}>
+          <>
+            <Component {...pageProps} />
+            <audio id="music" src="/sounds/music.mp3" loop></audio>
+          </>
+        </AnimatePresence>
+      </GameProvider>
+    </SessionProvider>
   );
 }
 
