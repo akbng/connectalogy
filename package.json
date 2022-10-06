@@ -13,6 +13,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.2",
     "date-fns": "^2.29.2",
+    "deep-equal": "^2.0.5",
     "framer-motion": "^7.3.5",
     "next": "12.3.0",
     "next-auth": "^4.12.2",
