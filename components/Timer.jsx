@@ -68,7 +68,7 @@ const Timer = ({ time, size, color, className, onComplete, pause }) => {
           remainingTime < 4 && remainingTime > 0 ? styles.animate_pingu : "",
         ].join(" ")}
         style={{
-          fontSize: `${Math.max(1, ~~(size / 40))}rem`,
+          fontSize: `${Math.max(0.8, ~~(size / 40))}rem`,
           color: color,
         }}
       >
