@@ -9,9 +9,7 @@ export default async function handler(req, res) {
       const { name, email, image } = req.body;
       const duplicateUser = await User.exists({ email: email });
       if (duplicateUser)
-        return res
-          .status(403)
-          .json({ error: true, reason: "User already exists!" });
+        return res.status(200).json({ error: false, data: duplicateUser });
       const user = await User.create({ name, email, image });
       return res.status(200).json({ error: false, data: user });
     } catch (error) {
