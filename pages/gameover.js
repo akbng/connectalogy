@@ -1,13 +1,28 @@
 import Head from "next/head";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSession, signIn, signOut, getProviders } from "next-auth/react";
 
 import Animate from "../components/Animate";
 import { GameContext } from "../providers/GameProvider";
+import { createNewUser, getHighScorers, updateScore } from "../helpers";
 
 const GameOver = ({ providers }) => {
   const { state } = useContext(GameContext);
   const { data: session } = useSession();
+  const [leaderboard, setLeaderboard] = useState([]);
+
+  const updateLeaderboard = async () => {
+    try {
+      const { data: users } = await getHighScorers(25);
+      setLeaderboard([...users]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    updateLeaderboard();
+  }, [session]);
 
   return (
     <Animate>
@@ -94,6 +109,7 @@ const GameOver = ({ providers }) => {
         ) : (
           <button onClick={() => signIn(providers.facebook.id)}>Signin</button>
         )}
+        {leaderboard.length > 0 && (
         <div
           style={{
             width: "360px",
@@ -105,17 +121,35 @@ const GameOver = ({ providers }) => {
             borderRadius: ".4rem",
           }}
         >
-          {Array(15)
-            .fill("Lorem ipsum.")
-            .map((item, i) => (
+            {leaderboard.map((user) => (
               <div
-                style={{ width: "100%", padding: "0 12px", margin: "10px 0" }}
-                key={i}
+                style={{
+                  width: "100%",
+                  padding: "0 1rem",
+                  margin: "1rem 0",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+                key={user._id}
               >
-                {item}
+                <div>
+                  <img
+                    style={{
+                      width: "30px",
+                      borderRadius: "100%",
+                      marginRight: "1rem",
+                    }}
+                    src={user.image}
+                    alt={user.name + "'s DP"}
+                  />
+                  <span>{user.name}</span>
+                </div>
+                <div>{user.high_score}</div>
               </div>
             ))}
         </div>
+        )}
       </div>
     </Animate>
   );
