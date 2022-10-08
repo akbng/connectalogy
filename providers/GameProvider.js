@@ -7,7 +7,7 @@ export const GameContext = createContext();
 const initialState = {
   score: 0,
   level: 0,
-  user: null,
+  user: "",
   locale: "en",
   mode: "normal",
   isSoundOn: true,
