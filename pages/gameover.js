@@ -7,9 +7,19 @@ import { GameContext } from "../providers/GameProvider";
 import { createNewUser, getHighScorers, updateScore } from "../helpers";
 
 const GameOver = ({ providers }) => {
-  const { state } = useContext(GameContext);
+  const { state, updateState } = useContext(GameContext);
   const { data: session } = useSession();
   const [leaderboard, setLeaderboard] = useState([]);
+
+  const updateUser = async () => {
+    try {
+      const { data: user } = await createNewUser(session.user);
+      await updateScore(user._id, state.score);
+      updateState({ user: user._id });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const updateLeaderboard = async () => {
     try {
@@ -21,6 +31,7 @@ const GameOver = ({ providers }) => {
   };
 
   useEffect(() => {
+    if (session) updateUser();
     updateLeaderboard();
   }, [session]);
 
@@ -110,17 +121,17 @@ const GameOver = ({ providers }) => {
           <button onClick={() => signIn(providers.facebook.id)}>Signin</button>
         )}
         {leaderboard.length > 0 && (
-        <div
-          style={{
-            width: "360px",
-            height: "60%",
-            padding: "6px",
-            overflowX: "hidden",
-            overflowY: "auto",
-            border: "1px solid #b3b3b3",
-            borderRadius: ".4rem",
-          }}
-        >
+          <div
+            style={{
+              width: "360px",
+              height: "60%",
+              padding: "6px",
+              overflowX: "hidden",
+              overflowY: "auto",
+              border: "1px solid #b3b3b3",
+              borderRadius: ".4rem",
+            }}
+          >
             {leaderboard.map((user) => (
               <div
                 style={{
@@ -148,7 +159,7 @@ const GameOver = ({ providers }) => {
                 <div>{user.high_score}</div>
               </div>
             ))}
-        </div>
+          </div>
         )}
       </div>
     </Animate>
