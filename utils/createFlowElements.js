@@ -1,12 +1,20 @@
 import enRelations from "../i18n/en";
 
-const getOctoSeries = (start, numOfElements) => {
+/**
+ * Function to find a general AP series given the starting point,
+ * ending point and the common difference
+ * @param start - Starting Number for the series
+ * @param end - The last number of the series
+ * @param commonDiff - Common Difference of the series
+ * @returns - An array containing the required AP series.
+ */
+const getAPSeries = (start, end, commonDiff) => {
   let arr = [];
   let i = 0;
   let a = 0;
   while (true) {
-    a = start + i * 8;
-    if (a > numOfElements) break;
+    a = start + i * commonDiff;
+    if (a > end) break;
     arr.push(a);
     i++;
   }
