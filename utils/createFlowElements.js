@@ -21,58 +21,60 @@ const getAPSeries = (start, end, commonDiff) => {
   return arr;
 };
 
-const getXPosition = (p, numOfElements) => {
-  const pos = new Array(4).fill().map((_, i) => i * 180); // [0, 180, 360, 540]
-  const quadSeries = getOctoSeries(4, numOfElements);
-  const octoSeries = getOctoSeries(0, numOfElements);
+const getXPosition = (p, numOfElements, numOfRows) => {
+  const pos = new Array(numOfRows).fill().map((_, i) => i * 180); // [0, 180, 360, 540]
+  const reverseSeries = getAPSeries(numOfRows, numOfElements, 2 * numOfRows);
+  const forwardSeries = getAPSeries(0, numOfElements, 2 * numOfRows);
   for (let i = 0; i < numOfElements; i++) {
-    let a = quadSeries[i];
-    let b = octoSeries[i];
-    if (p >= a && p <= a + 3) return pos[pos.length - (p - a) - 1];
-    if (p >= b && p <= b + 3) return pos[p - b];
+    let a = reverseSeries[i];
+    let b = forwardSeries[i];
+    if (p >= a && p <= a + numOfRows - 1) return pos[pos.length - (p - a) - 1];
+    if (p >= b && p <= b + numOfRows - 1) return pos[p - b];
   }
 };
 
-const getTargetPos = (pos, numOfElements) => {
+const getTargetPos = (pos, numOfElements, numOfRows) => {
   if (pos === 0) return "left";
-  if (pos % 4 === 0) return "top";
-  const rSeries = getOctoSeries(5, numOfElements);
-  const lSeries = getOctoSeries(1, numOfElements);
+  if (pos % numOfRows === 0) return "top";
+  const rSeries = getAPSeries(numOfRows + 1, numOfElements, 2 * numOfRows);
+  const lSeries = getAPSeries(1, numOfElements, 2 * numOfRows);
   for (let i = 0; i < numOfElements; i++) {
     let a = rSeries[i];
     let b = lSeries[i];
-    if (pos >= a && pos <= a + 3) return "right";
-    if (pos >= b && pos <= b + 3) return "left";
+    if (pos >= a && pos <= a + numOfRows - 1) return "right";
+    if (pos >= b && pos <= b + numOfRows - 1) return "left";
   }
 };
 
-const getSourcePos = (pos, numOfElements) => {
-  if (pos % 4 === 3) return "bottom";
-  const rSeries = getOctoSeries(0, numOfElements);
-  const lSeries = getOctoSeries(4, numOfElements);
+const getSourcePos = (pos, numOfElements, numOfRows) => {
+  if (pos % numOfRows === numOfRows - 1) return "bottom";
+  const rSeries = getAPSeries(0, numOfElements, 2 * numOfRows);
+  const lSeries = getAPSeries(numOfRows, numOfElements, 2 * numOfRows);
   for (let i = 0; i < numOfElements; i++) {
     let a = lSeries[i];
     let b = rSeries[i];
-    if (pos >= a && pos <= a + 3) return "left";
-    if (pos >= b && pos <= b + 3) return "right";
+    if (pos >= a && pos <= a + numOfRows - 1) return "left";
+    if (pos >= b && pos <= b + numOfRows - 1) return "right";
   }
 };
 
-const createFlowElements = (arr, lang) => {
+const createFlowElements = (arr, lang, screenWidth) => {
+  const rowsPerColumn = screenWidth < 600 ? 2 : 4;
+
   const nodes = arr.map((item, i) => ({
     id: `${i + 1}`,
     data: {
       label: !lang || lang.length === 0 ? enRelations[item] : lang[item],
     },
     position: {
-      x: getXPosition(i, arr.length), // [0, 180, 360, 540] or [540, 360, 180, 0]
-      y: 100 * Math.floor(i / 4), // [0, 0, 0, 0, 100, 100, 100, 100, 200, 200, 200, 200, 300, 300, ...]
+      x: getXPosition(i, arr.length, rowsPerColumn), // [0, 180, 360, 540] or [540, 360, 180, 0]
+      y: 100 * Math.floor(i / rowsPerColumn), // y = 0, 100, 200, 300, ...
     },
     style: {
       width: "120px",
     },
-    targetPosition: getTargetPos(i, arr.length),
-    sourcePosition: getSourcePos(i, arr.length),
+    targetPosition: getTargetPos(i, arr.length, rowsPerColumn),
+    sourcePosition: getSourcePos(i, arr.length, rowsPerColumn),
   }));
   const edges = arr.map((_, i) => {
     if (i + 1 === arr.length) return;
