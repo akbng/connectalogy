@@ -60,7 +60,9 @@ const Game = ({ data }) => {
           <span>Score:</span>
           <span className={styles.score}>{state.score}</span>
         </div>
-        <ProblemDiagram {...createFlowElements(data.problem, lang)} />
+        <ProblemDiagram
+          {...createFlowElements(data.problem, lang, screenWidth)}
+        />
         <MenuIcon
           className={styles.menu_button}
           onClick={() => setIsMenuOpen(true)}
