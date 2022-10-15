@@ -7,29 +7,21 @@ import { GameContext } from "../providers/GameProvider";
 import Animate from "../components/Animate";
 import Game from "../components/Game";
 
-const Play = ({ problems }) => {
+const Play = () => {
   const router = useRouter();
   const {
-    state: { gameOver, level },
+    state: { gameOver, level, mode },
   } = useContext(GameContext);
-  const [data, setData] = useState(problems);
+  const [data, setData] = useState(getListOfProblems(level, 15, mode));
 
   useEffect(() => {
-    if (gameOver) {
-      router.push("/gameover");
-      return;
-    }
-    router.prefetch("/gameover");
-  }, [gameOver]);
+    if (gameOver) return router.push("/gameover");
 
-  useEffect(() => {
     if (level > 0.6 * data.length)
-      fetch(`api/v1/problems?level=${data.length}&limit=${10}`)
-        .then((res) => res.json())
-        .then((result) => {
-          if (!result.error) setData([...data, ...result.data]);
-        });
-  }, [level]);
+      setData((pd) => [...pd, ...getListOfProblems(level, 10, mode)]);
+
+    router.prefetch("/gameover");
+  }, [gameOver, level]);
 
   return (
     <Animate>
@@ -48,12 +40,5 @@ const Play = ({ problems }) => {
     </Animate>
   );
 };
-
-export async function getServerSideProps() {
-  const problems = getListOfProblems();
-  return {
-    props: { problems },
-  };
-}
 
 export default Play;

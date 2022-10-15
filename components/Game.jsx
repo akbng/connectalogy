@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import createFlowElements from "../utils/createFlowElements";
 import { GameContext } from "../providers/GameProvider";
+import { timerDetails } from "../logic/mechanics";
 import useWindowSize from "../hooks/useWindowSize";
 import ProblemDiagram from "./ProblemDiagram";
 import styles from "../styles/Game.module.css";
@@ -15,19 +16,16 @@ import Timer from "./Timer";
 import Modal from "./Modal";
 import Menu from "./Menu";
 
-const getTimerForMode = (mode) => {
-  const modes = {
-    easy: 25,
-    normal: 20,
-    hard: 15,
-  };
-  return modes[mode];
-};
-
 const timerVariants = {
   hidden: { opacity: 0, y: -50 },
   enter: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: -100 },
+};
+
+const maxAttemptsForMode = {
+  easy: 2,
+  normal: 2,
+  hard: 1,
 };
 
 const Game = ({ data }) => {
@@ -35,6 +33,9 @@ const Game = ({ data }) => {
   const lang = getLocale(state.locale);
   const [correctAns, setCorrectAns] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [attemptsLeft, setAttemptsLeft] = useState(
+    maxAttemptsForMode[state.mode]
+  );
   const { width: screenWidth } = useWindowSize();
 
   const onTimerComplete = () =>
@@ -49,6 +50,7 @@ const Game = ({ data }) => {
 
   useEffect(() => {
     if (correctAns) setCorrectAns("");
+    setAttemptsLeft(maxAttemptsForMode[state.mode]);
     document.addEventListener("keydown", toggleMenuOnEsc);
     return () => document.removeEventListener("keydown", toggleMenuOnEsc);
   }, [state.level]);
@@ -79,7 +81,7 @@ const Game = ({ data }) => {
               className={styles.timer_wrapper}
             >
               <Timer
-                time={getTimerForMode(state.mode)}
+                time={timerDetails(state.level, state.mode)}
                 size={screenWidth > 750 ? 150 : 90}
                 color="#115e59"
                 onComplete={() => updateState({ gameOver: true })}
@@ -95,6 +97,8 @@ const Game = ({ data }) => {
           optionNumbers={["a", "b", "c", "d"]}
           options={data.solutionSet}
           rightOption={data.solution}
+          attemptsLeft={attemptsLeft}
+          setAttemptsLeft={setAttemptsLeft}
         />
         {correctAns && <NextButton onComplete={onTimerComplete} waitTill={5} />}
       </aside>

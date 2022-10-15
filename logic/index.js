@@ -1,4 +1,5 @@
 import Relations from "../data/Relations";
+import { getAPSeries } from "../utils/createFlowElements";
 
 /**
  * Given an item, find the path to it
@@ -117,13 +118,11 @@ export function shuffle(arr) {
   while (currentIndex != 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
-
     [arr[currentIndex], arr[randomIndex]] = [
       arr[randomIndex],
       arr[currentIndex],
-    ];
+    ]; // suffle
   }
-
   return arr;
 }
 
@@ -141,13 +140,22 @@ export function getRandomSolutionSet(solution) {
   return shuffle([solution, ...set]);
 }
 
-export function getListOfProblems(level = 0, limit = 10) {
+export function getListOfProblems(level = 0, limit = 10, mode = "easy") {
+  const startPoint = { easy: 4, normal: 2, hard: 0 };
   const data = [];
   const bound = parseInt(level) + parseInt(limit);
+  const seriesStart = startPoint[mode] === undefined ? 4 : startPoint[mode]; // error handling!
+  const series = getAPSeries(seriesStart, bound, 2);
+  series.forEach((s, i) => (series[i] = i - 1 < 0 ? s : s + series[i - 1]));
   for (let i = parseInt(level); i < bound; i++) {
-    const { problem, solution } = getRelationsWithSolution(
-      Math.floor(i / 6) + 2
-    );
+    let numOfProblems = 2;
+    for (let j = 1; j < series.length; j++) {
+      if (i >= series[j - 1] && i < series[j]) {
+        numOfProblems = j + 2;
+        break;
+      }
+    }
+    const { problem, solution } = getRelationsWithSolution(numOfProblems);
     const solutionSet = getRandomSolutionSet(solution);
     data.push({ problem, solution, solutionSet });
   }
