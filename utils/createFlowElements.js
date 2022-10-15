@@ -8,7 +8,7 @@ import enRelations from "../i18n/en";
  * @param commonDiff - Common Difference of the series
  * @returns - An array containing the required AP series.
  */
-const getAPSeries = (start, end, commonDiff) => {
+export const getAPSeries = (start, end, commonDiff) => {
   let arr = [];
   let i = 0;
   let a = 0;
