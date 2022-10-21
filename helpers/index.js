@@ -1,6 +1,9 @@
 export const getHighScorers = (limit) =>
   fetch(`/api/v1/highscorers?limit=${limit}`).then((res) => res.json());
 
+export const getUserDetails = (id) =>
+  fetch(`/api/v1/user/${id}`).then((res) => res.json());
+
 export const createNewUser = ({ name, email, image }) =>
   fetch(`/api/v1/user/create`, {
     method: "POST",
