@@ -15,9 +15,8 @@ const Play = () => {
   const [data, setData] = useState(getListOfProblems(level, 15, mode));
 
   useEffect(() => {
-    if (gameOver) return router.push("/gameover");
-
-    if (level > 0.6 * data.length)
+    if (gameOver) router.push("/gameover");
+    else if (level > 0.6 * data.length)
       setData((pd) => [...pd, ...getListOfProblems(level, 10, mode)]);
 
     router.prefetch("/gameover");
