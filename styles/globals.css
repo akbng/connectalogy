@@ -1,11 +1,17 @@
-@font-face {
-  font-family: "RedPixel";
-  src: url("/fonts/RedPixelRegular.woff2") format("woff2"),
-    url("/fonts/RedPixelRegular.woff") format("woff"),
-    url("/fonts/RedPixelRegular.ttf") format("truetype");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
+@import url("https://fonts.googleapis.com/css2?family=Delicious+Handrawn&family=Press+Start+2P&display=swap");
+
+:root {
+  --primary: #cdb4db;
+  --secondary: #ffafcc;
+  --tertiary: #ffc8dd;
+  --secondary-contrast: #694854;
+  --primary-contrast: #745898;
+  --success: #60d394;
+  --danger: #ee6055;
+  --bg-light: #ffe5ec;
+  --bg-dark: #9cadce;
+  --text-light: #f8edeb;
+  --text-dark: #f08080;
 }
 
 * {

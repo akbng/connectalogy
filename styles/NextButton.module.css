@@ -6,8 +6,8 @@
 .btn {
   width: fit-content;
   padding: 8px 14px;
-  background-color: #115e59;
-  color: #fff;
+  background-color: var(--primary-contrast);
+  color: var(--text-light);
   border-radius: 0.2rem;
   display: flex;
   justify-content: center;
