@@ -46,7 +46,7 @@ export default function Home() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.9)",
+            backgroundColor: "var(--bg-light)",
             position: "relative",
           }}
         >
@@ -57,19 +57,7 @@ export default function Home() {
               inset: "0",
               zIndex: "-1",
             }}
-          >
-            <video
-              src="/videos/bg_cover.mp4"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }}
-              autoPlay
-              loop
-              muted
-            ></video>
-          </div>
+          ></div>
         </main>
       </div>
     </Animate>

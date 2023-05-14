@@ -51,7 +51,11 @@ const Menu = ({ onSelect }) => {
               <Selector
                 key={locale.id}
                 label={locale.label}
-                color={state.locale === locale.id ? "#fde68a" : "#fff"}
+                color={
+                  state.locale === locale.id
+                    ? "var(--primary-contrast)"
+                    : "var(--text-light)"
+                }
                 onClick={selectLocale(locale.id)}
               />
             ))}
@@ -70,14 +74,14 @@ const Menu = ({ onSelect }) => {
               <Selector
                 key={i}
                 label={item}
-                color="#fff"
+                color="var(--text-light)"
                 onClick={() => action(item)}
               />
             ))}
             <Modes />
             <div className={styles.controllers}>
-              <Speaker size={35} color="#fff" />
-              <Music size={35} color="#fff" />
+              <Speaker size={35} color="var(--text-light)" />
+              <Music size={35} color="var(--text-light)" />
             </div>
           </motion.div>
         )}

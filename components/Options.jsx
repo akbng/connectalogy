@@ -79,8 +79,8 @@ const Options = ({
           ].join(" ")}
           color={
             wrongOptions.includes(opt) || correctAns === opt
-              ? "#fff"
-              : "#115e59"
+              ? "var(--text-light)"
+              : "var(--text-dark)"
           }
           onClick={onUserSelect(opt)}
         />

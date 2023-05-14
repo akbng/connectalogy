@@ -32,7 +32,12 @@ const NextButton = ({ onComplete, waitTill, className, style }) => {
     >
       <button onClick={onComplete} className={styles.btn}>
         <span style={{ marginRight: "8px" }}>Next in</span>
-        <Timer time={waitTill} size={30} color="#fff" onComplete={onComplete} />
+        <Timer
+          time={waitTill}
+          size={30}
+          color="var(--text-light)"
+          onComplete={onComplete}
+        />
       </button>
     </motion.div>
   );

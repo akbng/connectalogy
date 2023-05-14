@@ -14,8 +14,8 @@
   padding: 12px;
   margin: 12px 0;
   padding-left: 40px;
-  color: #333;
-  background-color: #d3d3d3;
+  color: var(--secondary-contrast);
+  background-color: var(--secondary);
   border-radius: 0.5rem;
   text-align: left;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
@@ -23,25 +23,24 @@
 }
 
 .correct_option {
-  color: #fff;
-  background-color: rgb(25, 105, 25);
+  background-color: var(--success);
 }
 
 .wrong_option {
   animation: wrong_feedback 0.8s ease-in-out forwards;
-  color: #fff;
+  color: var(--text-light);
 }
 
 @keyframes wrong_feedback {
   35%,
   65%,
   100% {
-    background-color: rgb(145, 15, 15);
+    background-color: var(--danger);
   }
   0%,
   50%,
   75% {
-    background-color: #d3d3d3;
+    background-color: rgb(145, 15, 15);
   }
 }
 

@@ -51,7 +51,7 @@ const Game = ({ data }) => {
     if (correctAns) setCorrectAns("");
     document.addEventListener("keydown", toggleMenuOnEsc);
     return () => document.removeEventListener("keydown", toggleMenuOnEsc);
-  }, [state.level]);
+  }, [state.level, correctAns]);
 
   return (
     <div className={styles.container}>
@@ -81,9 +81,10 @@ const Game = ({ data }) => {
               <Timer
                 time={getTimerForMode(state.mode)}
                 size={screenWidth > 750 ? 150 : 90}
-                color="#115e59"
+                color="var(--text-dark)"
                 onComplete={() => updateState({ gameOver: true })}
                 pause={isMenuOpen}
+                className={styles.timer}
               />
             </motion.div>
           )}
